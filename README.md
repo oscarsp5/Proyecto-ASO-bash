@@ -7,6 +7,7 @@
 <h2>📂 Que contiene el proyecto:</h2>
 Contiene un entorno grafico en el que deberemos tener las siguientes opciones:
 <br>
+<br>
 <ul>
   <li>Modificar permisos sobre ficheros y carpetas.</li>
   <p>Para ello, indicaremos el nombre del fichero o carpeta sobre el que vamos a trabajar y los permisos que queremos establecer, tanto para el propietario   como para el grupo y el resto de los usuarios (chmod)</p>
