@@ -1,6 +1,6 @@
 <h1>💻 Proyecto bash Linux  |   En proceso 🛠 </h1>
 
-<h2>⌨ Esta pagina contiene codigo:</h2>
+<h2>⌨ Este proyecto contiene codigo:</h2>
 <ul>
   <li>bash (.sh)</li>
 </ul>
