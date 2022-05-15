@@ -30,7 +30,7 @@ fi
 	
 permisos=$(yad --form \
 			--title="Proyecto-bash-Oscar" \
-			--height=300 \
+			--height=250 \
 			--width=300 \
 			--center \
 			--text="Establece permisos:" \
@@ -65,7 +65,7 @@ ans=$?
 opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
 opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros y Carpetas</span>"
 opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
@@ -86,6 +86,8 @@ esac
 
 function ftareas(){
 
+
+
 	menutarea=$(yad  --form \
 		--width=500 \
 		--height=300 \
@@ -104,10 +106,10 @@ function ftareas(){
 			diasmes=${parametro[2]}
 			mes=${parametro[3]}
 			diasemana=${parametro[4]}
-			descripcion=${parametro[5]}
-			comando=${parametro[6]}
+			comando=${parametro[5]}
+			descripcion=${parametro[6]}
 			agregar=$(echo "$minutos $hora $diasmes $mes $diasemana $USER $comando" >> /etc/crontab )
-			aceptar=$(yad --center --info --title= "Tareas programadas" --text="Tarea editada correctamente")
+			aceptar=$(yad --center --info --title= "Tareas programadas" --text="Tarea agregada correctamente")
 			
 		else
 					
@@ -119,7 +121,7 @@ function ftareas(){
 opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
 opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros y Carpetas</span>"
 opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
@@ -223,7 +225,7 @@ function fborrar(){
 opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
 opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros y Carpetas</span>"
 opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
@@ -265,8 +267,8 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 			--form --center --file  \
 			--column="" ) 2> /dev/null 
 
-	cual=$(yad --width=500 --height=50 --title "¿Que ruta quiere?" --list --center --column="" --column="" --text-align=center  \
-						--text="Que ruta queremos recuperar:
+	cual=$(yad --width=500 --height=50 --title "¿Que ruta quieres?" --list --center --column="" --column="" --text-align=center  \
+						--text="¿A que ruta lo mandamos?:
 		Para la ruta de antes = rutantes 
 		Para la ruta actual = rutactual" --entry) 2> /dev/null 
 
@@ -316,8 +318,8 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 			--form --center --file --directory  \
 			--column="" ) 2> /dev/null 
 	
-	cual=$(yad --width=500 --height=50 --title "¿Que ruta quiere?" --list --center --column="" --column="" --text-align=center  \
-						--text="Que ruta queremos recuperar:
+	cual=$(yad --width=500 --height=50 --title "¿Que ruta quieres?" --list --center --column="" --column="" --text-align=center  \
+						--text="¿A que ruta lo mandamos?:
 		Para la ruta de antes = rutantes 
 		Para la ruta actual = rutactual" --entry) 2> /dev/null 
 		
@@ -366,7 +368,7 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
 opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros y Carpetas</span>"
 opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
@@ -395,7 +397,7 @@ function fsalir(){
 opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
 opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros y Carpetas</span>"
 opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
@@ -410,6 +412,14 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
+
+
+
+
+	
+
+
+
 
 
 
