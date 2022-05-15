@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env bash
 
 #------------------Funciones---------------------
@@ -64,11 +62,11 @@ ans=$?
 
 #Regresamos al menu
 
-opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
-opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
-opcion3="<span weight=\"bold\" font=\"12\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\">Recuperar Ficheros</span>"
-opcion5="<span weight=\"bold\" font=\"12\">Salir</span>"
+opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
+opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
+opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
 --center) 2> /dev/null
@@ -87,8 +85,6 @@ esac
 #------------------Funcion Tareas Programadas---------------------
 
 function ftareas(){
-	
-#Le ponemos los permisos al crontab	 
 
 	menutarea=$(yad  --form \
 		--width=500 \
@@ -120,11 +116,11 @@ function ftareas(){
 
 #Regresamos al menu
 
-opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
-opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
-opcion3="<span weight=\"bold\" font=\"12\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\">Recuperar Ficheros</span>"
-opcion5="<span weight=\"bold\" font=\"12\">Salir</span>"
+opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
+opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
+opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
 --center) 2> /dev/null
@@ -181,7 +177,7 @@ function fborrar(){
 	mv papelera/rutatxt papelera/$concatenaruta
 	resultadoborrar=$(yad --width=300 --height=100 --title "Archivo borrado" --center --text-align=center --list  \
 	--column="" --text="Has borrado el fichero:" ${borrarfichero})
-
+	
 #Para borrar Directorios
 
 	elif [ $seleccionar = "borrardir" ]
@@ -224,11 +220,11 @@ function fborrar(){
 
 #Regresamos al menu
 
-opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
-opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
-opcion3="<span weight=\"bold\" font=\"12\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\">Recuperar Ficheros</span>"
-opcion5="<span weight=\"bold\" font=\"12\">Salir</span>"
+opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
+opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
+opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
 --center) 2> /dev/null
@@ -244,19 +240,103 @@ case $op in
 esac
 }
 
-#------------------Funcion Recuperar Ficheros---------------------
+#------------------Funcion Recuperar Ficheros y Carpetas---------------------
 
 function frecuperar(){
+cd papelera/	
+
+recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --height=50 --center \
+	--column="" --column="" --text-align=center \
+	--text="Que queremos recuperar:
+		Para Ficheros = recutxt
+		Para Directorios = recudir" --entry) 2> /dev/null 
 	
-	echo "Recuperar"
+	
+#Para recuperar Ficheros 
+
+	if [ $recu = "recutxt" ]
+
+		then
+			
+			recufichero=$(yad \
+			--width=300 \
+			--height=300 \
+			--title "Seleccionas el fichero que quieres recuperar" \
+			--form --center --file  \
+			--column="" ) 2> /dev/null 
+
+	cual=$(yad --width=500 --height=50 --title "¿Que ruta quiere?" --list --center --column="" --column="" --text-align=center  \
+						--text="Que ruta queremos recuperar:
+		Para la ruta de antes = rutantes 
+		Para la ruta actual = rutactual" --entry) 2> /dev/null 
+
+			if [ $cual = "rutantes" ]
+				then
+					rutantes="${recufichero##*/}"
+						cadena=$(cat donde-estaba-$rutantes)
+						cadena2="${cadena%/*}"
+						cadena3="donde-estaba-$rutantes"
+						mv $recufichero $cadena2
+						comandolsl=$(ls -l $cadena2)
+						cd papelera/
+						rm -r $cadena3
+						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
+						Archivo recuperado en directorio antiguo
+						${comandolsl}"
+						cd ..
+		
+			elif [ $cual = "rutactual" ]
+			
+				then
+				
+				recuactu="$recufichero"
+						rutacon="donde-estaba-${recuactu##*/}"
+						rm -r $rutacon
+						cd ..
+						mv $recuactu .
+						comandolsactual=$(ls -l)
+						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
+						Archivo recuperado en directorio actual
+						${comandolsactual}"	
+		
+			fi
+		
+		
+
+#Para recuperar Directorios
+
+	elif [ $recu = "recudir" ]
+
+		then
+			cd /home/$USER/papelera
+			recudirectorio=$(yad \
+			--width=300 \
+			--height=300 \
+			--title "Seleccionas el directorio que quieres recuperar" \
+			--form --center --file --directory  \
+			--column="" ) 2> /dev/null 
+	
+	cual=$(yad --width=500 --height=50 --title "¿Que ruta quiere?" --list --center --column="" --column="" --text-align=center  \
+						--text="Que ruta queremos recuperar:
+		Para la ruta de antes = rutantes 
+		Para la ruta actual = rutactual" --entry) 2> /dev/null 
+
+	
+	
+	else
+		
+		yad --width=300 --height=100 --title "Error" --text="Selecciona que quieres recuperar correctamente" --form --center --directory --column=""  --image=stop
+	
+	
+	fi
 	
 #Regresamos al menu
 
-opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
-opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
-opcion3="<span weight=\"bold\" font=\"12\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\">Recuperar Ficheros</span>"
-opcion5="<span weight=\"bold\" font=\"12\">Salir</span>"
+opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
+opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
+opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
 --center) 2> /dev/null
@@ -281,11 +361,11 @@ function fsalir(){
 
 #--------------------Menu------------------------- 
 
-opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
-opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
-opcion3="<span weight=\"bold\" font=\"12\">Borrar Ficheros y Carpetas</span>"
-opcion4="<span weight=\"bold\" font=\"12\">Recuperar Ficheros</span>"
-opcion5="<span weight=\"bold\" font=\"12\">Salir</span>"
+opcion1="<span weight=\"bold\" font=\"12\" foreground=\"red\">Gestion de Permisos</span>"
+opcion2="<span weight=\"bold\" font=\"12\" foreground=\"red\">Tareas Pogramadas</span>"
+opcion3="<span weight=\"bold\" font=\"12\" foreground=\"red\">Borrar Ficheros y Carpetas</span>"
+opcion4="<span weight=\"bold\" font=\"12\" foreground=\"red\">Recuperar Ficheros</span>"
+opcion5="<span weight=\"bold\" font=\"12\" foreground=\"red\">Salir</span>"
 
 op=$(yad --width=300 --height=250 --title "Menu Opciones" --list --column="" --column="" 1 "${opcion1}" 2 "${opcion2}" 3 "${opcion3}" 4 "${opcion4}" 5 "${opcion5}" \
 --center) 2> /dev/null
@@ -299,7 +379,6 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
-
 
 
 
