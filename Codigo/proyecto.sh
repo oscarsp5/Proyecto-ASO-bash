@@ -207,7 +207,7 @@ function fborrar(){
 	mv $borrardirectorio papelera/
 	echo "$borrardirectorio" > papelera/rutadir
 	mydirectory="$borrardirectorio"
-	concatenaruta="rutantigua${mydirectory##*/}"
+	concatenaruta="donde-estaba-${mydirectory##*/}"
 	mv papelera/rutadir papelera/$concatenaruta
 	resultadoborrar=$(yad --width=300 --height=100 --title "Directorio borrado" --center --text-align=center --list  \
 	--column="" --text="Has borrado la carpeta:" ${borrardirectorio})
@@ -308,7 +308,7 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 	elif [ $recu = "recudir" ]
 
 		then
-			cd /home/$USER/papelera
+			
 			recudirectorio=$(yad \
 			--width=300 \
 			--height=300 \
@@ -320,6 +320,37 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 						--text="Que ruta queremos recuperar:
 		Para la ruta de antes = rutantes 
 		Para la ruta actual = rutactual" --entry) 2> /dev/null 
+		
+		if [ $cual = "rutantes" ]
+				then
+					rutantesdir="${recudirectorio##*/}"
+						cadena=$(cat donde-estaba-$rutantesdir)
+						cadena2="${cadena%/*}"
+						cadena3="donde-estaba-$rutantesdir"
+						mv $recudirectorio $cadena2
+						comandolsl=$(ls -l $cadena2)
+						cd papelera/
+						rm -r $cadena3
+						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
+						Archivo recuperado en directorio antiguo
+						${comandolsl}"
+						cd ..
+		
+			elif [ $cual = "rutactual" ]
+			
+				then
+				
+				recuactudir="$recudirectorio"
+						rutacon="donde-estaba-${recuactudir##*/}"
+						rm -r $rutacon
+						cd ..
+						mv $recuactudir .
+						comandolsactual=$(ls -l)
+						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
+						Archivo recuperado en directorio actual
+						${comandolsactual}"	
+		
+			fi
 
 	
 	
@@ -380,5 +411,9 @@ case $op in
 	"5") fsalir;;
 esac
 
+
+
+
+	
 
 
