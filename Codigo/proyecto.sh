@@ -1,3 +1,5 @@
+
+
 #!/usr/bin/env bash
 
 #------------------Funciones---------------------
@@ -14,7 +16,7 @@ archivo=$(yad --file \
 		--width=300 \
 		--center \
 		--text="Selecciona un archivo:" \
-		--file-filter="scripts | * ")
+		--file)
 ans=$?
 		
 if [ $ans -eq 0 ]
@@ -31,39 +33,36 @@ fi
 permisos=$(yad --form \
 			--title="Proyecto-bash-Oscar" \
 			--height=300 \
-			--width=200 \
+			--width=300 \
 			--center \
 			--text="Establece permisos:" \
 			--button=Establecer:0 --button=Cancelar:1 \
 			--column=""\
-			--field="Usuario":NUM \
-			--field="Grupos":NUM \
-			--field="Otros":NUM \
+			--field="Usuario (0-7)":NUM \
+			--field="Grupos (0-7)":NUM \
+			--field="Otros (0-7)":NUM \
 			)
 			
-			
-			ans=$?
-	if [ $ans -eq 0 ]
-	then
-			IFS="|" read -r -a pu <<< "$permisos"
-			user=${pu[0]}
-			group=${pu[1]}
-			other=${pu[2]}
-	
-		
-		permisos="$user$group$other"
-		echo ${permisos}
-	else
-		echo "No has elegido ningún componente"
-	fi
-    chmod $permisos $archivo
-    ls -l $archivo
+ans=$?
 
-			
-					
+	if [ $ans -eq 0 ]
+	
+		then
+		
+			IFS="|" read -r -a parametro <<< "$permisos"
+			usuario=${parametro[0]}
+			grupos=${parametro[1]}
+			otros=${parametro[2]}
+	
+			permisos="$usuario$grupos$otros"
+			echo ${permisos}resultado=$(yad --center --title= "Pemisos" --text="Estos son los permisos que has otorgado ->  ${permisos}")
+	else
+		echo "No has otorgado ningun permiso"
+	fi
+		chmod $permisos $archivo
+		ls -l $archivo
 
 #Regresamos al menu
-
 
 opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
@@ -83,18 +82,43 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
-
-
 }
 
 #------------------Funcion Tareas Programadas---------------------
 
 function ftareas(){
-	echo "Tarea"
 	
+#Le ponemos los permisos al crontab	 
+
+	menutarea=$(yad  --form \
+		--width=500 \
+		--height=300 \
+		--title "Tareas Programadas" \
+        --center \
+		--field="Minuto (0-59)":NUM --field="Hora (0-23)":NUM --field="Días del mes (1-31)":NUM --field="Mes (1-12)":NUM --field="Dia de la semana (0-6)":NUM --field="Comando" --field="Descripcion comando")   
+            
+    ans=$?
+            
+    if [ $ans -eq 0 ]
+		then
+		
+			IFS="|" read -r -a parametro <<< "$menutarea"
+			minutos=${parametro[0]}
+			hora=${parametro[1]}
+			diasmes=${parametro[2]}
+			mes=${parametro[3]}
+			diasemana=${parametro[4]}
+			descripcion=${parametro[5]}
+			comando=${parametro[6]}
+			agregar=$(echo "$minutos $hora $diasmes $mes $diasemana $USER $comando" >> /etc/crontab )
+			aceptar=$(yad --center --info --title= "Tareas programadas" --text="Tarea editada correctamente")
+			
+		else
+					
+			error=$(yad --center --info --title="Error" --image="stop" --text="Error al agregar la tarea")
+	fi
 
 #Regresamos al menu
-
 
 opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
@@ -114,9 +138,6 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac	
-	
-	
-	
 }
 
 #------------------Funcion Borrar Ficheros---------------------
@@ -128,7 +149,6 @@ function fborrar(){
 	--text="Que podemos borrar:
 		Para Ficheros = borrartxt
 		Para Directorios = borrardir" --entry) 2> /dev/null 
-
 
 #Para borrar Ficheros 
 
@@ -155,13 +175,12 @@ function fborrar(){
 	fi
 
 	mv $borrarfichero papelera/
-	echo "$borrarfichero" > papelera/ruta.txt
-	myfile="$borrarfichero"
-	concatenaruta="rutantigua${myfile##*/}"
-	mv papelera/ruta.txt papelera/$concatenaruta
+	echo "$borrarfichero" > papelera/rutatxt
+	ficheroelegido="$borrarfichero"
+	concatenaruta="donde-estaba-${ficheroelegido##*/}"
+	mv papelera/rutatxt papelera/$concatenaruta
 	resultadoborrar=$(yad --width=300 --height=100 --title "Archivo borrado" --center --text-align=center --list  \
 	--column="" --text="Has borrado el fichero:" ${borrarfichero})
-
 
 #Para borrar Directorios
 
@@ -197,7 +216,6 @@ function fborrar(){
 	resultadoborrar=$(yad --width=300 --height=100 --title "Directorio borrado" --center --text-align=center --list  \
 	--column="" --text="Has borrado la carpeta:" ${borrardirectorio})
 
-
 	else
 
 	yad --width=300 --height=100 --title "Error" --text="Selecciona que quieres borrar correctamente" --form --center --directory --column=""  --image=stop 
@@ -206,7 +224,6 @@ function fborrar(){
 
 #Regresamos al menu
 
-
 opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
 opcion3="<span weight=\"bold\" font=\"12\">Borrar Ficheros y Carpetas</span>"
@@ -225,9 +242,6 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
-	
-	
-	
 }
 
 #------------------Funcion Recuperar Ficheros---------------------
@@ -236,10 +250,7 @@ function frecuperar(){
 	
 	echo "Recuperar"
 	
-	
-	
 #Regresamos al menu
-
 
 opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
@@ -258,10 +269,7 @@ case $op in
 	"3") fborrar;;
 	"4") frecuperar;;
 	"5") fsalir;;
-esac
-	
-	
-	
+esac	
 }
 
 #------------------Funcion Salir---------------------
@@ -269,13 +277,9 @@ esac
 function fsalir(){
 	
 	echo "Has salido del menu"
-
-
 }
 
-
 #--------------------Menu------------------------- 
-
 
 opcion1="<span weight=\"bold\" font=\"12\">Gestion de Permisos</span>"
 opcion2="<span weight=\"bold\" font=\"12\">Tareas Pogramadas</span>"
@@ -295,6 +299,7 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
+
 
 
 
