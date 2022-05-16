@@ -275,15 +275,15 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 			if [ $cual = "rutantes" ]
 				then
 					rutantes="${recufichero##*/}"
-						cadena=$(cat donde-estaba-$rutantes)
-						cadena2="${cadena%/*}"
+						rutanteriortxt=$(cat donde-estaba-$rutantes)
+						conversiontxt="${rutanteriortxt%/*}"
 						cadena3="donde-estaba-$rutantes"
-						mv $recufichero $cadena2
-						comandolsl=$(ls -l $cadena2)
+						mv $recufichero $conversiontxt
+						comandolsl=$(ls -l $conversiontxt)
 						cd papelera/
 						rm -r $cadena3
-						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
-						Archivo recuperado en directorio antiguo
+						yad --width=500 --height=150 --title "Fichero recuperado con éxito" --center --text="
+						Fichero recuperado en directorio antiguo
 						${comandolsl}"
 						cd ..
 		
@@ -297,8 +297,8 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 						cd ..
 						mv $recuactu .
 						comandolsactual=$(ls -l)
-						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
-						Archivo recuperado en directorio actual
+						yad --width=500 --height=150 --title "Fcihero recuperado con éxito" --center --text="
+						Fichero recuperado en directorio actual
 						${comandolsactual}"	
 		
 			fi
@@ -326,15 +326,15 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 		if [ $cual = "rutantes" ]
 				then
 					rutantesdir="${recudirectorio##*/}"
-						cadena=$(cat donde-estaba-$rutantesdir)
-						cadena2="${cadena%/*}"
+						rutanterior=$(cat donde-estaba-$rutantesdir)
+						conversion="${rutanterior%/*}"
 						cadena3="donde-estaba-$rutantesdir"
-						mv $recudirectorio $cadena2
-						comandolsl=$(ls -l $cadena2)
+						mv $recudirectorio $conversion
+						comandolsl=$(ls -l $conversion)
 						cd papelera/
 						rm -r $cadena3
-						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
-						Archivo recuperado en directorio antiguo
+						yad --width=500 --height=150 --title "Directorio recuperado con éxito" --center --text="
+						Directorio recuperado en directorio antiguo
 						${comandolsl}"
 						cd ..
 		
@@ -348,8 +348,8 @@ recu=$( yad --list --title "Selecciona lo que quieres recuperar" --width=500 --h
 						cd ..
 						mv $recuactudir .
 						comandolsactual=$(ls -l)
-						yad --width=550 --height=300 --title "Archivo recuperado con éxito" --center --text="
-						Archivo recuperado en directorio actual
+						yad --width=500 --height=150 --title "Directorio recuperado con éxito" --center --text="
+						Directorio recuperado en directorio actual
 						${comandolsactual}"	
 		
 			fi
@@ -412,6 +412,21 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
+
+
+
+
+	
+
+
+
+
+
+
+
+	
+
+
 
 
 
