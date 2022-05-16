@@ -1,4 +1,4 @@
-<h1>💻 Proyecto bash Linux  |   En progreso 🛠 </h1>
+<h1>💻 Proyecto bash Linux  |  Finalizado ✅ </h1>
 
 <h2>⌨ Este proyecto contiene codigo:</h2>
 <ul>
