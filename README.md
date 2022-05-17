@@ -15,7 +15,7 @@ Contiene un entorno grafico en el que deberemos tener las siguientes opciones:
   <p>Podremos indicar el comando o script que queramos que se ejecute y su temporalidad.</p>
   <li>Borrado de ficheros o carpetas</li>
   <p>Borrar un fichero o una carpeta</p>
-  <li>Recuperación de ficheros borrados.</li>
+  <li>Recuperación de ficheros y carpetas borrados.</li>
   <p>Nos permitirá recuperar dicho fichero tanto en la carpeta en la que se encontraba originalmente, como en otra que le indiquemos.</p>
       </ul>
 
