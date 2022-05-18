@@ -412,33 +412,3 @@ case $op in
 	"4") frecuperar;;
 	"5") fsalir;;
 esac
-
-
-
-
-	
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-	
-
-
